@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gamifying UX (prototype)</title>
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-light_blue.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.6/jquery.fullPage.css">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+      body {
+        background: #fff;
+        color: #aaa;
+      }
+      .slide {
+        color: #aaa;
+        text-align: left;
+      }
+      .slide p {
+        font-size: 20px;
+      }
+      .continue-btn {
+        margin-top: 1em;
+        width: 100%;
+      }
+    </style>
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+  </head>
+  <body>
+    <!-- Simple header with fixed tabs. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout-icon">
+          <button class="mdl-button mdl-js-button mdl-button--icon">
+            <i id="close" class="material-icons">close</i>
+          </button>
+        </div>
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Practice Observation</span>
+        </div>
+      </header>
+      <!-- Your content goes here -->
+      <div id="fullpage" class="center-wrapper">
+        <div class="section fp-auto-height-responsive">
+          <div class="slide">
+              <p>People don't often listen. They ask the question and they prepare to move on to the next question. 
+              In this short clip, listen deeply and don't just "hear" it.</p>
+            <button class="continue-btn mdl-button mdl-js-button mdl-button--accent">
+              Continue
+            </button>
+          </div>
+          <div class="slide">
+            <p>After viewing this video, you will be quizzed.</p>
+            <iframe width="560" height="auto" src="https://www.youtube.com/embed/XrpAveg7ZIg" frameborder="0" allowfullscreen></iframe>
+            <button class="continue-btn mdl-button mdl-js-button mdl-button--accent">
+              Continue
+            </button>
+          </div>
+          <div class="slide">
+            <p>What was the problem Oral-B was trying to solve?</p>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option1">
+              <input checked class="mdl-radio__button" id="option1" name="myanswer" type="radio" value="1">
+              <span class="mdl-radio__label">Create new kid's toothbrush, that is different than the rest in the market</span>
+            </label>
+            <br>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option2">
+              <input class="mdl-radio__button" id="option2" name="myanswer" type="radio" value="2">
+              <span class="mdl-radio__label">Find better ways for kids to brush their teeth</span>
+            </label>
+            <br>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option3">
+              <input class="mdl-radio__button" id="option3" name="myanswer" type="radio" value="3">
+              <span class="mdl-radio__label">Remain the leading oral healthcare company in the USA</span>
+            </label>
+            <br>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option4">
+              <input class="mdl-radio__button" id="option4" name="myanswer" type="radio" value="4">
+              <span class="mdl-radio__label">Invent a toothbrush that is used by adults and kids alike</span>
+            </label>
+            <button id="checkanswer" class="mdl-button mdl-js-button mdl-button--accent">
+              Check Answer
+            </button>
+          </div>
+          <div class="slide">
+            <p>What information did the field research reveal?</p>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option1">
+              <input checked class="mdl-radio__button" id="option1" name="myanswer" type="radio" value="1">
+              <span class="mdl-radio__label">Kids' hands are small</span>
+            </label>
+            <br>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option2">
+              <input class="mdl-radio__button" id="option2" name="myanswer" type="radio" value="2">
+              <span class="mdl-radio__label">Kids' do not like brushing their teeth</span>
+            </label>
+            <br>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option3">
+              <input class="mdl-radio__button" id="option3" name="myanswer" type="radio" value="3">
+              <span class="mdl-radio__label">Kids hold toothbrush different than adults</span>
+            </label>
+            <br>
+            <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option4">
+              <input class="mdl-radio__button" id="option4" name="myanswer" type="radio" value="4">
+              <span class="mdl-radio__label">Kids need skinnier toothbrushes to fit in their hands</span>
+            </label>
+            <button id="checkanswer2" class="mdl-button mdl-js-button mdl-button--accent">
+              Check Answer
+            </button>
+          </div>
+        </div>
+      </div>
+      <div aria-live="assertive" aria-atomic="true" aria-relevant="text" class="mdl-snackbar mdl-js-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button type="button" class="mdl-snackbar__action"></button>
+      </div>
+    </div>
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.6/jquery.fullPage.min.js"></script>
+    <script src="/firebase-init.js"></script>
+    <script src="/firebase-auth.js"></script>
+    <script src="/gamifying-ux.js"></script>
+    <script>
+      // initialize the fullPage jquery plugin -- see docs at https://github.com/alvarotrigo/fullPage.js
+      $('#fullpage').fullpage({
+        anchors: ['page1'],
+        sectionsColor: ['#fff'],
+        controlArrows: false
+      });
+      $(document).on('click','#close',function(){
+        location.href = '/practice';
+      });
+      $(document).on('click','.continue-btn',function(){
+        $.fn.fullpage.moveSlideRight();
+      });
+      $(document).on('click','#checkanswer',function(){
+        var notification = document.querySelector('.mdl-js-snackbar');
+        var data = {
+          message: 'Correct',
+          actionHandler: function(event) {
+            $.fn.fullpage.moveSlideRight();
+          },
+          actionText: 'Continue',
+          timeout: 10000
+        };
+        notification.MaterialSnackbar.showSnackbar(data);
+      });
+      $(document).on('click','#checkanswer2',function(){
+        var notification = document.querySelector('.mdl-js-snackbar');
+        var data = {
+          message: 'Correct',
+          actionHandler: function(event) {},
+          actionText: 'Continue',
+          timeout: 10000
+        };
+        notification.MaterialSnackbar.showSnackbar(data);
+      });
+    </script>
+  </body>
+</html>

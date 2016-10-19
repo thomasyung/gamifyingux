@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gamifying UX (prototype)</title>
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-light_blue.min.css" />
+    <link rel="stylesheet" href="/style.css">
+    <style>
+      .mdl-textfield.is-invalid .mdl-textfield__input {
+        border-color: #ddd;
+      }
+      .mdl-textfield--floating-label.is-invalid .mdl-textfield__label {
+        color: #ddd;
+      }
+      #continue-btn, #next-btn {
+        width: 100%;
+      }
+    </style>
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+  </head>
+  <body>
+
+    <!-- Simple header with fixed tabs. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Create Profile</span>
+        </div>
+      </header>
+      
+      <!-- Content -->
+      <main class="mdl-layout__content">
+        <div class="page-content center-wrapper">
+          <div id="page1" class="mdl-card__supporting-text">
+            <form action="#">
+              <div>Hello <span id="display_name">NAME</span>, tell us about yourself. Where do you live?</div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="location" required>
+                <label class="mdl-textfield__label" for="location">Location</label>
+              </div>
+              <br><br>
+              <div>How many years of work-related UX experience do you have?</div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="number" id="yrs_work_experience" required>
+                <label class="mdl-textfield__label" for="yrs_work_experience">Years</label>
+              </div>
+              <br><br>
+              <div>How many years of education-related UX experience do you have?</div>
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="number" id="yrs_edu_experience" required>
+                <label class="mdl-textfield__label" for="yrs_edu_experience">Years</label>
+              </div>
+              <input type="submit" value="Next" id="next-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+            </form>
+          </div>
+          <div id="page2" class="mdl-card__supporting-text">
+            <p>Based on what you have told us about your real-world work and educational UX experience, 
+            we will start you off with <span id="xp">x</span> PTS (<span id="level"></span>).</p>
+            <button id="continue-btn" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+              Continue
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="/firebase-init.js"></script>
+    <script src="/gamifying-ux.js"></script>
+    <script>
+      var userId;
+      var savedata = {};
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          userId = user.uid;
+          savedata.id = user.uid;
+          savedata.email = user.email;
+          savedata.display_name = user.displayName;
+          if (user.photoURL){
+            savedata.photo_url = user.photoURL;
+          } else {
+            savedata.photo_url = 'https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg';
+          }
+          savedata.email_notifications = "false";
+          savedata.app_notifications = "false";
+          document.querySelector('#display_name').innerText = user.displayName;
+        }
+      });
+      $('#page2').hide();
+      $('#next-btn').click(function(){
+        if ($('#location').val()!='' && $('#yrs_work_experience').val() != '' && $('#yrs_edu_experience').val() != ''){
+          savedata.location = $('#location').val();
+          var xp = GamifyingUX.calculateXP($('#yrs_work_experience').val(), $('#yrs_edu_experience').val());
+          var level = GamifyingUX.getLevel(xp);
+          $('#xp').text(xp);
+          $('#level').text(level);
+          savedata.xp = xp;
+          savedata.level = level;
+          $('#page1').hide();
+          $('#page2').show();
+        } 
+      });
+      $('#continue-btn').click(function(){
+        console.log(savedata);
+        if (userId && savedata.location && savedata.xp && savedata.level){
+          firebase.database().ref('users/'+userId).set(savedata).then(function(){
+            location.href = "/practice";
+          }.bind(this)).catch(function(error){
+            console.error('Error writing to Firebase Database', error);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

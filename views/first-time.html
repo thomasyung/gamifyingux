@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gamifying UX (prototype)</title>
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-light_green.min.css" />
+    <!--
+      fullPage.js jQuery plugin styles
+    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.6/jquery.fullPage.css">
+    <link rel="stylesheet" href="/style.css">
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+  </head>
+  <body>
+    <!--
+      fullPage.js container
+    -->
+    <div id="fullpage">
+      <div class="section">
+        <div class="slide">
+          <img src="https://cdn.hyperdev.com/us-east-1%3A1228e376-e16a-4591-a808-6e78365f8d83%2Fux_sundial.png" width="150px" height="150px">
+          <h3>Practicing UX</h3>
+          <p>Connect with other UX Designers and 
+          practice UX skills by yourself or with others.</p>
+        </div>
+        <div class="slide">
+          <h3>How This Works</h3>
+          <p>(1) Choose the skill to practice.</p>
+          <p>(2) Play a mini-game tailored to enhance that skill.</p>
+          <p>(3) Earn points and badges.</p>
+        </div>
+        <div class="slide">
+          <h3>What To Practice</h3>
+          <p>(1) Empathy</p>
+          <p>(2) Observation</p>
+          <p>(3) Interviewing</p>
+          <p>(4) Synthesis</p>
+          <p>(5) Presentation</p>
+        </div>
+        <div class="slide">
+          <h3>Play Solo or Pair Up</h3>
+          <p>Invite others to join you and build a network of allies to help you practice.</p>
+        </div>
+        <div class="slide">
+          <h3>Points Earn You Badges</h3>
+          <p>Points are like experience points. The more points you earn, the higher your ranking.</p>
+          <p>0 to 1,000 = INTERN</p>
+          <p>1,000 to 3,000 = JUNIOR</p>
+          <p>3,000 to 5,000 = MID-LEVEL</p>
+          <p>5,000 to 10,000 = SENIOR</p>
+          <p>10,000 or higher = EXPERT</p>
+        </div>
+        <div class="slide">
+          <h4>Before we start, we need to ask you some questions...</h4>
+          <button id="continue" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">CONTINUE</button>
+        </div>
+        <button id="skip" class="mdl-button mdl-js-button mdl-button--accent">SKIP</button>
+      </div>
+    </div>
+    
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.8.6/jquery.fullPage.min.js"></script>
+    <script src="/jquery.mousewheel.js"></script>
+    <script src="/firebase-init.js"></script>
+    <script>
+    $(function(){
+      // initialize the fullPage jquery plugin -- see docs at https://github.com/alvarotrigo/fullPage.js
+      $('#fullpage').fullpage({
+        anchors: ['page1'],
+        sectionsColor: ['#2196F3'],
+        controlArrows: false,
+        slidesNavigation: true
+      });
+      $('#fullpage').on('mousewheel', function(event) {
+        var delta = Math.max(-1, Math.min(1, (event.originalEvent.wheelDelta || -event.originalEvent.detail)));
+        if (delta < 0) {
+          $.fn.fullpage.moveSlideLeft();
+        } else {
+          $.fn.fullpage.moveSlideRight();
+        }
+      });
+      $(document).on('click', '#skip', function(){
+        $.fn.fullpage.moveTo('page1', 5);
+      });
+      $(document).on('click', '#continue', function(){
+        location.href = "/createprofile";
+      });
+    });
+    </script>
+  </body>
+</html>

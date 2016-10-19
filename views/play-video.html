@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gamifying UX (prototype)</title>
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-light_blue.min.css" />
+    <link rel="stylesheet" href="/style.css">
+    <style>
+      #video-container {
+        position: fixed;
+        top: 0%;
+        width: 100%;
+        height: 70%;
+      }
+    </style>
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+  </head>
+  <body>
+    <!-- Simple header -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout-icon">
+          <button class="mdl-button mdl-js-button mdl-button--icon">
+            <i id="close" class="material-icons">close</i>
+          </button>
+        </div>
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Practice Presenting</span>
+        </div>
+      </header>
+      <!-- Content -->
+      <main class="mdl-layout__content">
+        <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+          <div class="page-content center-vh">
+            <!-- Your content goes here -->
+            <div id="video-container"></div>
+            <button id="recordagain" title="Record Again" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color-text--white">
+              <i class="material-icons">videocam</i> Record Again
+            </button>
+            <br>
+            <button id="getfeedback" title="Get Feedback" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color-text--white">
+              <i class="material-icons">feedback</i> Get Feedback
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="/scrollsnap-polyfill.bundled.js"></script>
+    <script src="/firebase-init.js"></script>
+    <script>
+      $(document).on('click','#close',function(){
+        location.href = '/practice';
+      });
+      var VIDEO_TEMPLATE = function(src){
+        return  '<video width="100%" height="100%" autoplay loop controls>' +
+                  '<source src="'+src+'" type="video/mp4" />' +
+                  'Your browser does not support the video tag.' +
+                '</video>';
+      };
+      if (sessionStorage.playVideoUrl){
+        document.getElementById('video-container').innerHTML = VIDEO_TEMPLATE(sessionStorage.playVideoUrl);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gamifying UX (prototype)</title>
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-light_blue.min.css" />
+    <link rel="stylesheet" href="/style.css">
+    <style>
+      .mdl-list__item--two-line .mdl-list__item-primary-content {
+        height: auto;
+      }
+    </style>
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+  </head>
+  <body>
+    <!-- Simple header with fixed tabs. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout-icon">
+          <button class="mdl-button mdl-js-button mdl-button--icon">
+            <i id="close" class="material-icons">close</i>
+          </button>
+        </div>
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Notifications</span>
+        </div>
+      </header>
+      <!-- Content -->
+      <main class="mdl-layout__content">
+        <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+          <div class="page-content center-wrapper">
+            <!-- Your content goes here -->
+            <ul id="notification-list" class='mdl-list'></ul>
+          </div>
+        </section>
+      </main>
+    </div>
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="/firebase-init.js"></script>
+    <script src="/firebase-auth.js"></script>
+    <script>
+      $(document).on('click','#close',function(){
+        window.history.back();
+      });
+      var openNotification = function(event){
+        event.preventDefault();
+        var tmpArr = event.target.id.split('|');
+        var uid = tmpArr[0];
+        var key = tmpArr[1];
+        var url = event.target.href;
+        firebase.database().ref('notifications/'+uid+'/'+key).set(null).then(function(){
+          location.href = url;
+        });
+      };
+      var LIST_TEMPLATE = function(options){
+        return '<div>'+(new Date(options.notification_item.timestamp)).toLocaleString()+'</div>'+
+                '<li class="mdl-list__item mdl-list__item--two-line">'+
+                  '<span class="mdl-list__item-primary-content">'+
+                  '<span>'+options.notification_item.title+'</span>'+
+                  '<span class="mdl-list__item-sub-title">'+options.notification_item.msg+'</span>'+
+                  '<a id="'+options.uid+'|'+options.key+'" href="'+options.notification_item.respond_url+'" onclick="openNotification(event); return false;">REPLY</a>'+
+                '</li><hr>';
+      }
+      firebase.auth().onAuthStateChanged(function(user){
+        if (user){
+          firebase.database().ref('notifications/'+user.uid).on('child_added', function(snapshot){
+            var options = {
+              key: snapshot.key,
+              notification_item: snapshot.val(),
+              uid: user.uid 
+            };
+            $('#notification-list').append(LIST_TEMPLATE(options));
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
