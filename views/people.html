@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gamifying UX (prototype)</title>
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-light_blue.min.css" />
+    <link rel="stylesheet" href="/style.css">
+    <style>
+      /* custom styles */
+      #invite-btn {
+        position: fixed;
+        right: 2em;
+        bottom: 1em;
+        z-index: 1;
+      }
+    </style>
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+  </head>
+  <body>
+
+    <!-- Simple header with fixed tabs. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+                mdl-layout--fixed-tabs">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Practicing UX</span>
+          <div class="mdl-layout-spacer"></div>
+          <div class="mdl-layout-icon">
+            <button id="notifications" class="mdl-button mdl-js-button mdl-button--icon">
+              <i class="material-icons">notifications</i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+          <a href="/practice" class="mdl-layout__tab">Practice</a>
+          <a href="/history" class="mdl-layout__tab">History</a>
+          <a href="/people" class="mdl-layout__tab is-active">People</a>
+        </div>
+      </header>
+      
+      <!-- Drawer -->
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title material-blue-bkg profile-photo"></span>
+        <span class="mdl-layout-title material-blue-bkg" id="profile-name">title</span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="/profile"><i class="material-icons">person</i> Profile</a>
+          <a class="mdl-navigation__link" href="/settings"><i class="material-icons">settings</i> Settings</a>
+          <a class="mdl-navigation__link" href="/help"><i class="material-icons">help</i> Help</a>
+          <a class="mdl-navigation__link" href="/feedback"><i class="material-icons">feedback</i> Feedback</a>
+          <a id="signout" class="mdl-navigation__link" href="#">Sign Out</a>
+        </nav>
+      </div>
+      
+      <!-- Content -->
+      <main class="mdl-layout__content">
+        <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+          <div class="page-content center-wrapper">
+            <!-- Your content goes here -->
+            <ul id="userlist" class='mdl-list'></ul>
+          </div>
+        </section>
+      </main>
+      <button id="invite-btn" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+        <i class="material-icons">add</i>
+      </button>
+    </div>
+    
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="/firebase-init.js"></script>
+    <script src="/firebase-auth.js"></script>
+    <script src="/notifications.js"></script>
+    <script>
+      var startChat = function(event) {
+        location.href = '/chat#'+event.target.id;
+      };
+      var LIST_TEMPLATE = function(user_item){
+        return '<li class="mdl-list__item mdl-list__item--two-line">'+
+                  '<span class="mdl-list__item-primary-content">'+
+                  '<span class="mdl-list__item-avatar profile-photo"><img src="'+user_item.photo_url+'"></span>'+
+                  '<span>'+user_item.display_name+'</span>'+
+                  '<span class="mdl-list__item-sub-title">'+user_item.level+' level | '+user_item.xp+' PTS</span>'+
+                  '<a id="'+user_item.id+'" href="#" onclick="startChat(event); return false;">CHAT</a>'+
+                '</li><hr>';
+      }
+      firebase.auth().onAuthStateChanged(function(userobj){
+        firebase.database().ref('users/').once('value').then(function(snapshot){
+          var all_users = snapshot.val();
+          for (var user in all_users){
+            if (userobj.uid !== user) { // don't display yourself
+              $('#userlist').append(LIST_TEMPLATE(all_users[user]));
+            }
+          }
+        });
+      });
+      $('#invite-btn').click(function(){
+        location.href = '/invite';
+      });
+    </script>
+  </body>
+</html>

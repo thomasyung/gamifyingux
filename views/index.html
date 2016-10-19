@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gamifying UX (prototype)</title>
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-light_blue.min.css">
+    <link rel="stylesheet" href="/fonts.css">
+    <link rel="stylesheet" href="/style.css">
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+  </head>
+  <body>
+    <div class="mdl-layout center-vh-element center-vh-viewport">
+      <p>
+        <img src="https://cdn.hyperdev.com/us-east-1%3A1228e376-e16a-4591-a808-6e78365f8d83%2Fux_sundial.png" width="200px" height="200px">
+      </p>
+      <h3>Practicing UX</h3>
+      <p>Connect with other UX Designers</p>
+      <p>Practice UX skills by yourself or with others</p>
+      <br><br>
+      <img id="loading" class="hidden" src="https://cdn.hyperdev.com/us-east-1%3A1228e376-e16a-4591-a808-6e78365f8d83%2Floading.gif" alt="loading" width="40px">
+      <p>
+        <button id="signin" class="hidden mdl-button mdl-js-button mdl-button--raised mdl-button--accent">SIGN IN</button>
+      </p>
+    </div>
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script src="firebase-init.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script>
+      $(function(){
+        firebase.auth().onAuthStateChanged(function(user) {
+          console.log("authStateChanged:");
+          console.log(user);
+          if (user) {
+            // User is signed in.
+            firebase.database().ref('/users/' + user.uid).once('value').then(function(snapshot) {
+              console.log(snapshot.val());
+              if (!snapshot.val()) {
+                location.href = "/firsttimer";
+              } else {
+                location.href = "/practice";
+              }
+            });
+          }
+        });
+        firebase.auth().getRedirectResult().then(function(result) {
+          console.log("getRedirectResult:");
+          console.log(result);
+          if (result.user){
+            $('#loading').removeClass('hidden');
+            $('#signin').addClass('hidden');
+          } else {
+            $('#loading').addClass('hidden');
+            $('#signin').removeClass('hidden');
+          }
+        }).catch(function(error) {
+          var errorMessage = error.message;
+          console.error(errorMessage);
+        });
+        var provider = new firebase.auth.GoogleAuthProvider();
+        $(document).on('click','#signin',function(){
+          firebase.auth().signInWithRedirect(provider);
+        });
+        
+      });
+    </script>
+  </body>
+</html>

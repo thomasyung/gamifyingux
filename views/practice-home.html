@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gamifying UX (prototype)</title>
+    <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.blue-light_blue.min.css" />
+    <link rel="stylesheet" href="/style.css">
+    <style>
+      .mdl-layout__content {
+        background-color: #eee;
+      }
+      .horizontal-scroll-container {
+        display: flex;
+        align-items: center;
+        flex-flow: row;
+        overflow-x: scroll;
+      }
+      .horizontal-scroll-container::-webkit-scrollbar { 
+        display: none; 
+      }
+      .mdl-card {
+        margin: 1em;
+        min-width: 200px;
+      }
+    </style>
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+  </head>
+  <body>
+
+    <!-- Simple header with fixed tabs. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+                mdl-layout--fixed-tabs">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Practicing UX</span>
+          <div class="mdl-layout-spacer"></div>
+          <div class="mdl-layout-icon">
+            <button id="notifications" class="mdl-button mdl-js-button mdl-button--icon">
+            </button>
+          </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+          <a href="/practice" class="mdl-layout__tab is-active">Practice</a>
+          <a href="/history" class="mdl-layout__tab">History</a>
+          <a href="/people" class="mdl-layout__tab">People</a>
+        </div>
+      </header>
+      
+      <!-- Drawer -->
+      <div class="mdl-layout__drawer">
+        <span class="mdl-layout-title material-blue-bkg profile-photo"></span>
+        <span class="mdl-layout-title material-blue-bkg" id="profile-name">title</span>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="/profile"><i class="material-icons">person</i> Profile</a>
+          <a class="mdl-navigation__link" href="/settings"><i class="material-icons">settings</i> Settings</a>
+          <a class="mdl-navigation__link" href="/help"><i class="material-icons">help</i> Help</a>
+          <a class="mdl-navigation__link" href="/feedback"><i class="material-icons">feedback</i> Feedback</a>
+          <a id="signout" class="mdl-navigation__link" href="#">Sign Out</a>
+        </nav>
+      </div>
+      
+      <!-- Content -->
+      <main class="mdl-layout__content">
+        <section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+          <div class="page-content">
+            <!-- Your content goes here -->
+            <div class="horizontal-scroll-container">
+              <div id="empathy" class="mdl-card mdl-shadow--4dp">
+                <div class="mdl-card__title">
+                  <h2 class="mdl-card__title-text">Empathy</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  It encompasses all the skills a UX professional needs to connect
+                  and feel the user to be able to help them with their work.
+                </div>
+              </div>
+              <div id="observation" class="mdl-card mdl-shadow--4dp">
+                <div class="mdl-card__title">
+                  <h2 class="mdl-card__title-text">Observation</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  Gain information about the subject/user to be able to draw a connection
+                  between the cause and effect.
+                </div>
+              </div>
+              <div id="interviewing" class="mdl-card mdl-shadow--4dp">
+                <div class="mdl-card__title">
+                  <h2 class="mdl-card__title-text">Interviewing</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  Part of discovery phase; exploring user's pain points and motivations.
+                </div>
+              </div>
+              <div id="synthesis" class="mdl-card mdl-shadow--4dp">
+                <div class="mdl-card__title">
+                  <h2 class="mdl-card__title-text">Synthesis</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  Combine findings to come up with a solution for what you have discovered.
+                </div>
+              </div>
+              <div id="presenting" class="mdl-card mdl-shadow--4dp">
+                <div class="mdl-card__title">
+                  <h2 class="mdl-card__title-text">Presenting</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  Communicate the findings of the discovery/synthesis to the audience,
+                  and build a bridge of empathy between the user and the audience.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://www.gstatic.com/firebasejs/3.2.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="/jquery.mousewheel.js"></script>
+    <script src="/firebase-init.js"></script>
+    <script src="/firebase-auth.js"></script>
+    <script src="/notifications.js"></script>
+    <script>
+      var empathy = document.getElementById('empathy');
+      var observation = document.getElementById('observation');
+      var interviewing = document.getElementById('interviewing');
+      var synthesis = document.getElementById('synthesis');
+      var presenting = document.getElementById('presenting');
+      // handle selections
+      empathy.addEventListener('click', function(){
+        location.href = '/empathy';
+      });
+      observation.addEventListener('click', function(){
+        location.href = '/observation';
+      });
+      interviewing.addEventListener('click', function(){
+        location.href = '/interviewing';
+      });
+      synthesis.addEventListener('click', function(){
+        location.href = '/synthesis';
+      });
+      presenting.addEventListener('click', function(){
+        location.href = '/presenting';
+      });
+      // Handle mousewheel horizontal scrolling
+      $('.horizontal-scroll-container').on('mousewheel', function(event) {
+        var delta = Math.max(-1, Math.min(1, (event.originalEvent.wheelDelta || -event.originalEvent.detail)));
+        $(this).scrollLeft( $(this).scrollLeft() - ( delta * 40 ) );
+        event.preventDefault();
+      });
+    </script>
+  </body>
+</html>

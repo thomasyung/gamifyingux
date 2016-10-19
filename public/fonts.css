@@ -1,0 +1,15 @@
+  @font-face {
+    font-family:'Maison Neue Book';src:url(https://cdn.hyperdev.com/us-east-1%3Acf5ed5f0-e3fc-4211-a73e-b09a0432174c%2FMaisonNeueWEB-Book.woff) format("woff");font-weight:400;font-style:normal;
+  }
+  @font-face {
+    font-family:'Maison Neue Demi';src:url(https://cdn.hyperdev.com/us-east-1%3Acf5ed5f0-e3fc-4211-a73e-b09a0432174c%2FMaisonNeueWEB-Demi.woff) format("woff");font-weight:400;font-style:normal;
+  }
+  @font-face {
+    font-family:'Maison Neue Bold';src:url(https://cdn.hyperdev.com/us-east-1%3Acf5ed5f0-e3fc-4211-a73e-b09a0432174c%2FMaisonNeueWEB-Bold.woff) format("woff");font-weight:400;font-style:normal;
+  }
+  @font-face {
+    font-family:'Burlingame Pro Bold';src:url(https://cdn.hyperdev.com/us-east-1%3Acf5ed5f0-e3fc-4211-a73e-b09a0432174c%2FBurlingamePro-CondBlack.woff) format("woff");font-weight:400;font-style:normal;
+  }
+  @font-face {
+    font-family:'Burlingame Pro Light';src:url(https://cdn.hyperdev.com/us-east-1%3Acf5ed5f0-e3fc-4211-a73e-b09a0432174c%2FBurlingamePro-Light.woff) format("woff");font-weight:400;font-style:normal;
+  }

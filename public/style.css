@@ -1,0 +1,81 @@
+body {
+  background: #2196F3;
+  color: #fff;
+}
+#profile-header {
+  height: 14em;
+  background: #2196F3;
+  color: #fff;
+}
+.material-blue-bkg {
+  background-color: #2196F3;
+  color: #fff;
+}
+.profile-photo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.section {
+  text-align: center;
+  padding: 1em;
+  color: #fff;
+}
+.fp-slidesNav ul li a span {
+	background: #fff;
+}
+#skip {
+    position: absolute;
+    z-index: 4;
+    left: 75%;
+    bottom: 17px;
+}
+/* Center horizontally and vertically using flexbox */
+.center-vh-element {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.center-vh-viewport {
+  min-height: 100vh;
+}
+.center-h {
+  text-align: center;
+}
+.center-wrapper {
+  max-width: 30em;
+  margin: 0 auto;
+}
+/* Use this to hide an element */
+.hidden {
+  display: none;
+}
+.mdl-layout__content {
+  background: #fff;
+  color: #333;
+}
+.stats-container {
+  color: #333;
+  padding: 2em;
+  border-bottom: 1px solid #eee;
+}
+.stat-element {
+  color: #2196F3;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.settings-container {
+  color: #333;
+  font-weight: bold;
+}
+/* Override the button icons to accomodate for badges */
+#notifications.mdl-button--icon {
+  width: 56px;
+  height: 56px;
+}
+#notifications .mdl-badge[data-badge]:after {
+  background-color: red;
+  color: #fff;
+}
